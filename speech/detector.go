@@ -251,7 +251,7 @@ func (sd *Detector) Detect(pcm []float32) ([]Segment, error) {
 	return segments, nil
 }
 
-func (sd *Detector) DetectWindows(pcm []float32) ([]float32, error) {
+func (sd *Detector) DetectWindows(pcm []float32) ([]bool, error) {
 	if sd == nil {
 		return nil, fmt.Errorf("invalid nil detector")
 	}
@@ -269,14 +269,15 @@ func (sd *Detector) DetectWindows(pcm []float32) ([]float32, error) {
 		return nil, fmt.Errorf("samples must be in increments of %d, got %d (remainder %d)", windowSize, len(pcm), len(pcm)%windowSize)
 	}
 
-	windows := make([]float32, len(pcm)/windowSize)
+	// simpler w/ binary outcomes over direct probabilities
+	windows := make([]bool, len(pcm)/windowSize)
 
 	for i := 0; i < len(windows); i++ {
 		speechProb, err := sd.Infer(pcm[i*windowSize : (i+1)*windowSize])
 		if err != nil {
 			return nil, fmt.Errorf("infer failed: %w", err)
 		}
-		windows[i] = speechProb
+		windows[i] = speechProb > sd.cfg.Threshold
 	}
 	return windows, nil
 }
