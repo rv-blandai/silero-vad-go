@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  silero-vad-go
+  reecevela/silero-vad-go
   <br>
 </h1>
 <h4 align="center">A simple Golang (CGO + ONNX Runtime) speech detector powered by Silero VAD</h4>
