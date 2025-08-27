@@ -1,4 +1,4 @@
-module github.com/reecevela/silero-vad-go
+module github.com/rv-blandai/silero-vad-go
 
 go 1.21.4
 
